@@ -1,0 +1,30 @@
+<!--  // https://www.logicbig.com/tutorials/misc/java-logging/logback.html -->
+
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="asyncTasLogKafka" class="net.logstash.logback.appender.LoggingEventAsyncDisruptorAppender">
+        <appender name="kafkaVerboseAppender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+            <encoder class="com.github.danielwegener.logback.kafka.encoding.LayoutKafkaMessageEncoder">
+                <layout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern>tas_logs-%msg</pattern>
+                </layout>
+            </encoder>
+            <topic>devglan-log</topic>
+            <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.RoundRobinKeyingStrategy" />
+            <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy" />
+            <producerConfig>bootstrap.servers=localhost:9092</producerConfig>
+            <producerConfig>retries=2</producerConfig>
+        </appender>
+
+        <logger name="org.apache.kafka" level="INFO"/>
+        <logger name="org.apache.kafka.common.metrics" level="INFO"/>
+        <root level="debug">
+            <appender-ref ref="STDOUT" />
+        </root>
+    </appender>    
+</configuration>
