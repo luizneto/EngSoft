@@ -9,22 +9,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-//@JsonIgnoreProperties(value = {"createdAt", "updatedAt"}, allowGetters = true) 
 @Table(name="tb_airplane")
 public class Voo {
 
 	  @Id
-	  @GeneratedValue
-	  @Column(nullable = false, unique = false, name = "idDB")
-	  private int idDB;
-
-	  @Column(nullable = true, unique = false, name = "icao24")
+	  @Column(nullable = true, unique = true, name = "icao24")
 	  private String icao24;
+
 	  @Column(nullable = false, unique = false, name = "numero")
 	  private String numero;
 	  @Column(nullable = false, unique = false, name = "pais")
 	  private String pais;
-
+	  @Column(nullable = false, unique = false, name = "solo")
+	  private boolean solo;
 
 	  public Voo() {
 		  
@@ -33,15 +30,7 @@ public class Voo {
 		this.icao24 = (String)line.get(0);
 	    this.numero = (String)line.get(1);
 	    this.pais = (String)line.get(2);
-	  }
-
-
-	  public int getIdDB() {
-		return idDB;
-	}
-
-	public void setIdDB(int idDB) {
-		this.idDB = idDB;
+	    this.solo = (boolean)line.get(8);
 	}
 
 	public String getIcao24() {
@@ -68,13 +57,20 @@ public class Voo {
 		this.pais = pais;
 	}
 
+	public boolean isSolo() {
+		return solo;
+	}
+	public void setSolo(boolean solo) {
+		this.solo = solo;
+	}
+
 	@Override
 	 public String toString() {
 	   return String.format(
-	     "{idDB: %i, icao24: %s, number: %s, country: %s }",
-	     this.idDB,
+	     "{icao24: %s, number: %s, country: %s, solo: %b }",
 	     this.icao24,
 	     this.numero,
-	     this.pais);
-	 }
+	     this.pais,
+	     this.solo);
+	}
 }
