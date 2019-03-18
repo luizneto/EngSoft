@@ -15,3 +15,8 @@ Maven | Bootstrap
 JPA | Java Script
 Kafka | 
 
+## Especificações de execução:
+  - Fazer o clone através do link: <https://github.com/luizneto/EngSoft.git>;
+  - Importa o projeto Maven;
+  - Ter um servidor MySql;
+  - Realizar a execução pelo spring boot.
